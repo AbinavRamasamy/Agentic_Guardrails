@@ -107,7 +107,7 @@ def generate_plan(state: AgentState) -> AgentState:
     except Exception as e:
         state['plan'] = f"1. Query tasks. 2. Filter by criteria. 3. Summarize results."
         state['logs'].append(f"Planner LLM fallback activated: {e}")
-    state['logs'].append("Node [generate_plan]: Drafted action plan.")
+    state['logs'].append("[generate_plan]: Drafted action plan.")
     return state
 
 def validate_plan(state: AgentState) -> AgentState:
@@ -129,10 +129,10 @@ def validate_plan(state: AgentState) -> AgentState:
         
     if state['safety_status'] == 'unsafe':
         state['message'] = "Halted: Action plan flagged as unsafe by safety guardrail."
-        state['logs'].append("Node [validate_plan]: Flagged plan as UNSAFE. Flow blocked.")
+        state['logs'].append("[validate_plan]: Flagged plan as UNSAFE. Flow blocked.")
     else:
         state['message'] = "Plan verified as safe."
-        state['logs'].append("Node [validate_plan]: Plan verified as safe.")
+        state['logs'].append("[validate_plan]: Plan verified as safe.")
     return state
 
 def generate_sql(state: AgentState) -> AgentState:
@@ -149,7 +149,7 @@ def generate_sql(state: AgentState) -> AgentState:
     except Exception as e:
         state['sql_query'] = "SELECT * FROM tasks;"
         state['logs'].append(f"SQL LLM fallback activated: {e}")
-    state['logs'].append(f"Node [generate_sql]: Compiled query: '{state['sql_query']}'")
+    state['logs'].append(f"[generate_sql]: Compiled query: '{state['sql_query']}'")
     return state
 
 def validate_sql(state: AgentState) -> AgentState:
@@ -164,10 +164,10 @@ def validate_sql(state: AgentState) -> AgentState:
     if has_forbidden or not is_select:
         state['sql_status'] = 'unsafe'
         state['message'] = "Halted: SQL query failed security check (Only read-only SELECT queries permitted)."
-        state['logs'].append("Node [validate_sql]: SQL query flagged as UNSAFE. Flow blocked.")
+        state['logs'].append("[validate_sql]: SQL query flagged as UNSAFE. Flow blocked.")
     else:
         state['sql_status'] = 'safe'
-        state['logs'].append("Node [validate_sql]: SQL query verified as safe.")
+        state['logs'].append("[validate_sql]: SQL query verified as safe.")
     return state
 
 def run_query(state: AgentState) -> AgentState:
@@ -181,7 +181,7 @@ def run_query(state: AgentState) -> AgentState:
         state['query_results'] = str([dict(zip(colnames, row)) for row in rows])
     except Exception as e:
         state['query_results'] = f"Database query execution error: {e}"
-    state['logs'].append("Node [run_query]: Executed SQL query against seeded tasks database.")
+    state['logs'].append("[run_query]: Executed SQL query against seeded tasks database.")
     return state
 
 def summarize_results(state: AgentState) -> AgentState:
@@ -218,7 +218,7 @@ def summarize_results(state: AgentState) -> AgentState:
         else:
             state['summary'] = f"Summary: Data retrieved: {state['query_results']}"
         state['logs'].append(f"Summary LLM fallback activated: {e}")
-    state['logs'].append("Node [summarize_results]: Generated summary report.")
+    state['logs'].append("[summarize_results]: Generated summary report.")
     return state
 
 def check_grounding(state: AgentState) -> AgentState:
@@ -257,7 +257,7 @@ def check_grounding(state: AgentState) -> AgentState:
         state['grounding_status'] = 'hallucinated' if has_hallucination else 'grounded'
         
     state['loop_count'] += 1
-    state['logs'].append(f"Node [check_grounding]: Grounding check evaluated to '{state['grounding_status']}' (Loop {state['loop_count']}/2).")
+    state['logs'].append(f"[check_grounding]: Grounding check evaluated to '{state['grounding_status']}' (Loop {state['loop_count']}/2).")
     return state
 
 def verify_agent_flow(state: AgentState) -> str:
