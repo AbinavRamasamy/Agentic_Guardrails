@@ -1,0 +1,23 @@
+node_modules/
+.venv/
+venv/
+__pycache__/
+.env
+dist/
+.DS_Store
+.eslintcache
+*.db
+
+# IDEs
+.vscode/
+.trae/
+.idea/
+
+# macOS system files
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.Spotlight-V100
+.Trashes
