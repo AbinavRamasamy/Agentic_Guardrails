@@ -18,7 +18,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [results, setResults] = useState(null);
-  const [showInstructions, setShowInstructions] = useState(false);
+
 
   const presets = [
     { 
@@ -133,46 +133,7 @@ function App() {
             <strong>3. Fact Grounding Rail (Hallucination check node):</strong> Compares the generated final summary report against the literal database rows returned. If the LLM generates fabricated numbers or assignee names not present in the data, it triggers a correction loop to re-draft the summary.
           </li>
         </ul>
-        
-        <button 
-          className="run-btn" 
-          style={{ 
-            background: 'transparent',
-            border: '1px solid var(--border-color)',
-            fontSize: '0.85rem',
-            padding: '6px 12px',
-            boxShadow: 'none'
-          }}
-          onClick={() => setShowInstructions(!showInstructions)}
-        >
-          <Code size={14} /> {showInstructions ? 'Hide Run Code' : 'Show Run Code'}
-        </button>
 
-        {showInstructions && (
-          <div style={{ 
-            marginTop: '16px', 
-            background: '#0a0b0d', 
-            padding: '16px', 
-            borderRadius: '12px',
-            fontFamily: 'monospace',
-            fontSize: '0.8rem',
-            border: '1px solid var(--border-color)',
-            overflowX: 'auto',
-            lineHeight: '1.6'
-          }}>
-            <p style={{ color: '#818cf8', marginBottom: '4px' }}># 1. Install dependencies</p>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>pip install -r requirements.txt<br />npm install</p>
-            
-            <p style={{ color: '#818cf8', marginBottom: '4px' }}># 2. Set API credential key</p>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>export OPENROUTER_API_KEY="your_openrouter_api_key"</p>
-            
-            <p style={{ color: '#818cf8', marginBottom: '4px' }}># 3. Run backend FastAPI server</p>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '12px' }}>uvicorn api.index:app --reload --port 8000</p>
-            
-            <p style={{ color: '#818cf8', marginBottom: '4px' }}># 4. Run React frontend dev server</p>
-            <p style={{ color: 'var(--text-secondary)' }}>npm run dev</p>
-          </div>
-        )}
       </section>
 
       <main className="studio-card">
